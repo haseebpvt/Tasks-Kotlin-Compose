@@ -20,10 +20,13 @@ import androidx.compose.ui.graphics.ImageAsset
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.asImageAsset
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import widgets.CustomDialog
 import widgets.CustomItem
 import java.awt.Container
 import java.io.File
@@ -36,6 +39,7 @@ fun main() = Window(
 ) {
     val image = remember { imageFromFile(File("D:\\capture.PNG")) }
     val showDialog = remember { mutableStateOf(false) }
+    val dialogText = remember { mutableStateOf(TextFieldValue("")) }
     val time = remember { mutableStateOf("00:00:00") }
     val darkMode = remember { mutableStateOf(false) }
     val listOfTask = remember { mutableStateOf(mutableListOf("Hello", "Hey")) }
@@ -116,22 +120,11 @@ fun main() = Window(
             )
 
             // Alert dialog
-//            AlertDialog(onDismissRequest = {
-//                showDialog.value = false
-//            },
-//                confirmButton = {
-//                    Button(onClick = {
-//                        showDialog.value = false
-//                    }) {
-//                        Text("Hello")
-//                    }
-//                },
-//                text = { Text("Hello text")},
-//                title = { Text("Hello title")},
-//                dismissButton = {
-//                    showDialog.value = false
-//                }
-//            )
+            if (showDialog.value) {
+                Crossfade(current = 100, animation = tween(500)) {
+                    CustomDialog(showDialog, dialogText)
+                }
+            }
         }
     }
 }
