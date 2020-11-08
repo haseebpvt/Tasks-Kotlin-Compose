@@ -46,8 +46,13 @@ fun main() = Window(
     val darkMode = remember { mutableStateOf(false) }
     val listOfTask = remember { mutableStateOf(mutableListOf<String>()) }
 
-    val appBackgroundColor = remember { mutableStateOf(Color.Red) }
+    val appBackgroundColor = remember { mutableStateOf(Color.White) }
     val titleTextColor = remember { mutableStateOf(Color.Black) }
+    val dateAndTimeBackgroundColor = remember { mutableStateOf(Color.Black) }
+    val dateAndTimeTextColor = remember { mutableStateOf(Color.Black) }
+    val fabBackgroundColor = remember { mutableStateOf(Color.Black) }
+    val fabTextColor = remember { mutableStateOf(Color.Black) }
+    val taskItemTextColor = remember { mutableStateOf(Color.Black) }
 
     if (darkMode.value) { // Night mode
         titleTextColor.value = Color.Red
@@ -63,10 +68,6 @@ fun main() = Window(
 
     MaterialTheme {
 //        Image(asset = image, modifier = Modifier)
-
-        Crossfade(current = Color.White, animation = tween(3000)) {
-            Box(modifier = Modifier.fillMaxSize().background(it))
-        }
 
         Column(
             modifier = Modifier.fillMaxWidth(),
