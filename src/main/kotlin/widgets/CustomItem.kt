@@ -2,6 +2,7 @@ package widgets
 
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -37,24 +38,24 @@ class CustomItem {
         @Composable
         private fun item(text: String) {
             val checked = remember { mutableStateOf(false) }
-            Crossfade(current = 100, animation = tween(300)) {
-                Column {
-                    Row(modifier = Modifier.padding(top = 8.dp)) {
+            Crossfade(current = 100, animation = tween(500)) {
+                Column(modifier = Modifier.clickable { checked.value = !checked.value }) {
+                    Row(modifier = Modifier.padding(top = 16.dp, start = 16.dp, bottom = 16.dp)) {
                         Checkbox(checked.value, onCheckedChange = {
                             checked.value = it
                         }, colors = CheckboxConstants.defaultColors(checkedColor = Color.Black))
                         if (checked.value) {
                             Text(
                                 text,
-                                modifier = Modifier.padding(start = 8.dp),
+                                modifier = Modifier.padding(start = 16.dp),
                                 textDecoration = TextDecoration.LineThrough,
                                 color = Color(128, 128, 128)
                             )
                         } else {
-                            Text(text, modifier = Modifier.padding(start = 8.dp))
+                            Text(text, modifier = Modifier.padding(start = 16.dp))
                         }
                     }
-                    Divider(modifier = Modifier.padding(top = 8.dp, end = 16.dp))
+                    Divider()
                 }
             }
         }

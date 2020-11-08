@@ -92,7 +92,7 @@ fun main() = Window(
                     Text(time.value, modifier = Modifier.padding(start = 4.dp), color = Color.Black)
                 }
             }
-            Column(modifier = Modifier.padding(start = 24.dp, top = 32.dp)) {
+            Column(modifier = Modifier.padding(top = 32.dp)) {
                 CustomItem.customItem(listOfTask.value)
             }
         }
