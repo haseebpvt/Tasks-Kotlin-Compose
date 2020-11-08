@@ -39,7 +39,7 @@ import java.util.*
 
 fun main() = Window(
     size = IntSize(400, 600),
-    title = "Shopping List"
+    title = "Task"
 ) {
     val image = remember { imageFromFile(File("D:\\capture.PNG")) }
     val showDialog = remember { mutableStateOf(false) }

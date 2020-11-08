@@ -4,9 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
@@ -19,6 +17,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import black
+import white
 
 @Composable
 fun CustomDialog(
@@ -58,10 +58,13 @@ fun CustomDialog(
                         .padding(top = 16.dp),
                 )
 
-                Button(onClick = {
+                Button(
+                    onClick = {
                     showDialog.value = false
                     listOfTask.value.add(text.value.text)
-                }, modifier = Modifier.padding(top = 8.dp).fillMaxWidth()) {
+                }, modifier = Modifier.padding(top = 8.dp).fillMaxWidth(),
+                    colors = ButtonConstants.defaultButtonColors(backgroundColor = black(), contentColor = white())
+                ) {
                     Text("Add")
                 }
             }
