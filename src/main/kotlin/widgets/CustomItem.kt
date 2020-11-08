@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -21,9 +22,9 @@ class CustomItem {
     companion object {
 
         @Composable
-        fun customItem(list: MutableList<String>) {
+        fun customItem(list: MutableList<String>, textColor: MutableState<Color>) {
             list.forEach {
-                item(it)
+                item(it, textColor)
             }
         }
 
@@ -36,7 +37,7 @@ class CustomItem {
         }
 
         @Composable
-        private fun item(text: String) {
+        private fun item(text: String, textColor: MutableState<Color>) {
             val checked = remember { mutableStateOf(false) }
             Crossfade(current = 100, animation = tween(500)) {
                 Column(modifier = Modifier.clickable { checked.value = !checked.value }) {
@@ -49,10 +50,11 @@ class CustomItem {
                                 text,
                                 modifier = Modifier.padding(start = 16.dp),
                                 textDecoration = TextDecoration.LineThrough,
-                                color = Color(128, 128, 128)
+                                color = textColor.value
                             )
                         } else {
-                            Text(text, modifier = Modifier.padding(start = 16.dp))
+                            Text(text, modifier = Modifier.padding(start = 16.dp),
+                            color = textColor.value)
                         }
                     }
                     Divider()

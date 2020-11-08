@@ -3,12 +3,14 @@ import androidx.compose.animation.core.tween
 import androidx.compose.desktop.Window
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -45,6 +47,9 @@ fun main() = Window(
     val time = remember { mutableStateOf("00:00:00") }
     val darkMode = remember { mutableStateOf(false) }
     val listOfTask = remember { mutableStateOf(mutableListOf<String>()) }
+    var darkModeText = remember { mutableStateOf("D") }
+    val darkModeButtonBackgroundColor = remember { mutableStateOf(Color.Black) }
+    val darkModeButtonIconColor = remember { mutableStateOf(Color.Black) }
 
     val appBackgroundColor = remember { mutableStateOf(Color.White) }
     val titleTextColor = remember { mutableStateOf(Color.Black) }
@@ -54,20 +59,42 @@ fun main() = Window(
     val fabTextColor = remember { mutableStateOf(Color.Black) }
     val taskItemTextColor = remember { mutableStateOf(Color.Black) }
 
-    if (darkMode.value) { // Night mode
-        titleTextColor.value = Color.Red
-        appBackgroundColor.value = Color.Black
-    } else { // Light mode
-        titleTextColor.value = Color.Black
-        appBackgroundColor.value = Color.White
-    }
-
     Thread {
         time().forEach { time.value = it }
     }.start()
 
     MaterialTheme {
 //        Image(asset = image, modifier = Modifier)
+
+        if (!darkMode.value) {
+            Crossfade(current = 0, animation = tween(1000)) {
+                Box(modifier = Modifier.fillMaxSize().background(Color.White))
+            }
+
+            titleTextColor.value = black()
+            dateAndTimeBackgroundColor.value = white()
+            dateAndTimeTextColor.value = black()
+            fabBackgroundColor.value = black()
+            fabTextColor.value = white()
+            taskItemTextColor.value = black()
+            darkModeButtonBackgroundColor.value = black()
+            darkModeButtonIconColor.value = white()
+        }
+
+        if (darkMode.value) {
+            Crossfade(current = 100, animation = tween(1000)) {
+                Box(modifier = Modifier.fillMaxSize().background("#181818".toColor()))
+            }
+
+            titleTextColor.value = white()
+            dateAndTimeBackgroundColor.value = "#000000".toColor()
+            dateAndTimeTextColor.value = white()
+            fabBackgroundColor.value = white()
+            fabTextColor.value = black()
+            taskItemTextColor.value = white()
+            darkModeButtonBackgroundColor.value = white()
+            darkModeButtonIconColor.value = black()
+        }
 
         Column(
             modifier = Modifier.fillMaxWidth(),
@@ -86,16 +113,16 @@ fun main() = Window(
                 modifier = Modifier
                     .padding(top = 8.dp)
                     .clip(RoundedCornerShape(12.dp))
-                    .background(Color(grey, grey, grey))
+                    .background(dateAndTimeBackgroundColor.value)
             ) {
                 Row(modifier = Modifier.padding(start = 8.dp, end = 8.dp, top = 4.dp, bottom = 4.dp)) {
-                    Text(getTodaysDate(), modifier = Modifier.padding(end = 4.dp), color = Color.Black)
-                    Text("·", fontWeight = FontWeight.ExtraBold, color = Color.Black)
-                    Text(time.value, modifier = Modifier.padding(start = 4.dp), color = Color.Black)
+                    Text(getTodaysDate(), modifier = Modifier.padding(end = 4.dp), color = dateAndTimeTextColor.value)
+                    Text("·", fontWeight = FontWeight.ExtraBold, color = dateAndTimeTextColor.value)
+                    Text(time.value, modifier = Modifier.padding(start = 4.dp), color = dateAndTimeTextColor.value)
                 }
             }
-            Column(modifier = Modifier.padding(top = 100.dp)) {
-                CustomItem.customItem(listOfTask.value)
+            Column(modifier = Modifier.padding(top = 32.dp)) {
+                CustomItem.customItem(listOfTask.value, taskItemTextColor)
             }
         }
 
@@ -109,17 +136,43 @@ fun main() = Window(
                 onClick = {
                     showDialog.value = true
                 },
-                contentColor = Color.White,
-                backgroundColor = Color.Black
+                contentColor = fabTextColor.value,
+                backgroundColor = fabBackgroundColor.value
             )
-            FloatingActionButton(
-                onClick = {
-                    println(darkMode.value)
-                    darkMode.value = !darkMode.value
-                },
-                icon = { Icon(Icons.Filled.Star) },
-                modifier = Modifier.align(Alignment.BottomStart).padding(16.dp)
-            )
+//            FloatingActionButton(
+//                onClick = {
+//                    println(darkMode.value)
+//                },
+//                icon = { Icon(Icons.Filled.Star) },
+//                modifier = Modifier.align(Alignment.BottomStart).padding(16.dp)
+//            )
+
+            Box(modifier = Modifier.padding(16.dp)) {
+                Box(
+                    modifier = Modifier
+                        .width(24.dp)
+                        .height(24.dp)
+                        .background(shape = CircleShape, color = darkModeButtonBackgroundColor.value)
+                        .clickable {
+                            darkMode.value = !darkMode.value
+                            if (darkMode.value) {
+                                darkModeText.value = "N"
+                            } else {
+                                darkModeText.value = "D"
+                            }
+                        }
+                ) {
+
+                    Icon(
+                        Icons.Default.Edit, modifier = Modifier
+                            .align(Alignment.Center)
+                            .width(12.dp)
+                            .height(12.dp),
+                        tint = darkModeButtonIconColor.value
+                    )
+                }
+            }
+
 
             // Alert dialog
             if (showDialog.value) {
@@ -137,4 +190,17 @@ fun getTodaysDate(): String {
 
 fun imageFromFile(file: File): ImageAsset {
     return org.jetbrains.skija.Image.makeFromEncoded(file.readBytes()).asImageAsset()
+}
+
+fun String.toColor(): Color {
+    val color = java.awt.Color.decode(this)
+    return Color(color.red, color.green, color.blue)
+}
+
+fun white(): Color {
+    return "#F2F2F2".toColor()
+}
+
+fun black(): Color {
+    return "#181818".toColor()
 }
