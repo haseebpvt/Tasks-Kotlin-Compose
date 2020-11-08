@@ -4,6 +4,7 @@ import androidx.compose.desktop.Window
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -15,6 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageAsset
 import androidx.compose.ui.graphics.RectangleShape
@@ -66,7 +68,6 @@ fun main() = Window(
             Box(modifier = Modifier.fillMaxSize().background(it))
         }
 
-
         Column(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -92,7 +93,7 @@ fun main() = Window(
                     Text(time.value, modifier = Modifier.padding(start = 4.dp), color = Color.Black)
                 }
             }
-            Column(modifier = Modifier.padding(top = 32.dp)) {
+            Column(modifier = Modifier.padding(top = 100.dp)) {
                 CustomItem.customItem(listOfTask.value)
             }
         }
@@ -110,14 +111,14 @@ fun main() = Window(
                 contentColor = Color.White,
                 backgroundColor = Color.Black
             )
-//            FloatingActionButton(
-//                onClick = {
-//                    println(darkMode.value)
-//                    darkMode.value = !darkMode.value
-//                },
-//                icon = { Icon(Icons.Filled.Star) },
-//                modifier = Modifier.align(Alignment.BottomStart).padding(16.dp)
-//            )
+            FloatingActionButton(
+                onClick = {
+                    println(darkMode.value)
+                    darkMode.value = !darkMode.value
+                },
+                icon = { Icon(Icons.Filled.Star) },
+                modifier = Modifier.align(Alignment.BottomStart).padding(16.dp)
+            )
 
             // Alert dialog
             if (showDialog.value) {

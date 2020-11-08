@@ -3,6 +3,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.desktop.Window
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ExtendedFloatingActionButton
 import androidx.compose.material.Text
@@ -11,12 +12,20 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.dp
 
 fun main() = Window {
+    Box(modifier = Modifier
+        .width(100.dp)
+        .height(200.dp)
+        .clip(RoundedCornerShape(50.dp))
+        .background(Color.Red)
+    )
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -36,22 +45,6 @@ fun CustomText() {
             fontSize = TextUnit.Companion.Sp(32),
             fontWeight = FontWeight.Bold
         )
-
-        Button(onClick = {
-            if (currentColor.value == Color.Red) {
-                currentColor.value = Color.Blue
-            } else {
-                currentColor.value = Color.Red
-            }
-        }) {
-            Text("Hello")
-        }
-    }
-
-
-    Crossfade(current = currentColor.value, animation = tween(3000)) {
-        it.printName()
-        Box(modifier = Modifier.fillMaxSize().background(it))
     }
 
     Thread {
