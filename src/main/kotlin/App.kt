@@ -42,7 +42,7 @@ fun main() = Window(
     val dialogText = remember { mutableStateOf(TextFieldValue("")) }
     val time = remember { mutableStateOf("00:00:00") }
     val darkMode = remember { mutableStateOf(false) }
-    val listOfTask = remember { mutableStateOf(mutableListOf("Hello", "Hey")) }
+    val listOfTask = remember { mutableStateOf(mutableListOf<String>()) }
 
     val appBackgroundColor = remember { mutableStateOf(Color.Red) }
     val titleTextColor = remember { mutableStateOf(Color.Black) }
