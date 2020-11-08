@@ -1,5 +1,7 @@
 package widgets
 
+import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -35,23 +37,25 @@ class CustomItem {
         @Composable
         private fun item(text: String) {
             val checked = remember { mutableStateOf(false) }
-            Column {
-                Row(modifier = Modifier.padding(top = 8.dp)) {
-                    Checkbox(checked.value, onCheckedChange = {
-                        checked.value = it
-                    }, colors = CheckboxConstants.defaultColors(checkedColor = Color.Black))
-                    if (checked.value) {
-                        Text(
-                            text,
-                            modifier = Modifier.padding(start = 8.dp),
-                            textDecoration = TextDecoration.LineThrough,
-                            color = Color(128, 128, 128)
-                        )
-                    } else {
-                        Text(text, modifier = Modifier.padding(start = 8.dp))
+            Crossfade(current = 100, animation = tween(300)) {
+                Column {
+                    Row(modifier = Modifier.padding(top = 8.dp)) {
+                        Checkbox(checked.value, onCheckedChange = {
+                            checked.value = it
+                        }, colors = CheckboxConstants.defaultColors(checkedColor = Color.Black))
+                        if (checked.value) {
+                            Text(
+                                text,
+                                modifier = Modifier.padding(start = 8.dp),
+                                textDecoration = TextDecoration.LineThrough,
+                                color = Color(128, 128, 128)
+                            )
+                        } else {
+                            Text(text, modifier = Modifier.padding(start = 8.dp))
+                        }
                     }
+                    Divider(modifier = Modifier.padding(top = 8.dp, end = 16.dp))
                 }
-                Divider(modifier = Modifier.padding(top = 8.dp, end = 16.dp))
             }
         }
     }

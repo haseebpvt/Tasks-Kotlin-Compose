@@ -122,7 +122,7 @@ fun main() = Window(
             // Alert dialog
             if (showDialog.value) {
                 Crossfade(current = 100, animation = tween(500)) {
-                    CustomDialog(showDialog, dialogText)
+                    CustomDialog(showDialog, dialogText, listOfTask)
                 }
             }
         }

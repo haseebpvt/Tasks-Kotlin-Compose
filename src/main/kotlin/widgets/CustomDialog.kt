@@ -1,6 +1,7 @@
 package widgets
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
@@ -20,11 +21,18 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun CustomDialog(showDialog: MutableState<Boolean>, text: MutableState<TextFieldValue>) {
+fun CustomDialog(
+    showDialog: MutableState<Boolean>,
+    text: MutableState<TextFieldValue>,
+    listOfTask: MutableState<MutableList<String>>
+) {
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(Color(0f, 0f, 0f, alpha = .4f))
+            .clickable {
+                showDialog.value = false
+            }
     ) {
         Box(
             modifier = Modifier
@@ -42,7 +50,7 @@ fun CustomDialog(showDialog: MutableState<Boolean>, text: MutableState<TextField
                     fontWeight = FontWeight.Bold
                 )
                 TextField(
-                    value = TextFieldValue(""),
+                    value = text.value,
                     onValueChange = {
                         text.value = it
                     },
@@ -52,6 +60,7 @@ fun CustomDialog(showDialog: MutableState<Boolean>, text: MutableState<TextField
 
                 Button(onClick = {
                     showDialog.value = false
+                    listOfTask.value.add(text.value.text)
                 }, modifier = Modifier.padding(top = 8.dp).fillMaxWidth()) {
                     Text("Add")
                 }
