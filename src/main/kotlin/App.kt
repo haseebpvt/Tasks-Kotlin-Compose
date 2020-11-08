@@ -110,14 +110,14 @@ fun main() = Window(
                 contentColor = Color.White,
                 backgroundColor = Color.Black
             )
-            FloatingActionButton(
-                onClick = {
-                    println(darkMode.value)
-                    darkMode.value = !darkMode.value
-                },
-                icon = { Icon(Icons.Filled.Star) },
-                modifier = Modifier.align(Alignment.BottomStart).padding(16.dp)
-            )
+//            FloatingActionButton(
+//                onClick = {
+//                    println(darkMode.value)
+//                    darkMode.value = !darkMode.value
+//                },
+//                icon = { Icon(Icons.Filled.Star) },
+//                modifier = Modifier.align(Alignment.BottomStart).padding(16.dp)
+//            )
 
             // Alert dialog
             if (showDialog.value) {
